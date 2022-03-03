@@ -1,29 +1,35 @@
-public class MaxHeap<T extends Comparable<T> > {
-private HeapNode<T>[] heap = new HeapNode[100];
+public class MaxHeap<T extends Comparable<T>> {
+private Comparable[] heap;
 private int heapSize;
 private int capacity;
 
     public MaxHeap(){
         heapSize = 0;
-
+        heap = new Comparable[100];
     }
 
     public void heapInsert(T element){
-        HeapNode<T> node = new HeapNode(element);
 
         if(heapSize == capacity){
-            increaseCapacity(heap);
+
+            increaseCapacity();
         }
 
+        heap[heapSize] = element;
+
+        maxHeapifyUp(heapSize);
         heapSize++;
 
-        heap[heapSize] = node;
     }
 
-    public void maxHeapifyUp(int index, T element){
+    public void maxHeapifyUp(int index){
+        int parent = (int) Math.floor(index / 2);
 
+        if( heap[index].compareTo(heap[parent]) < 0){
 
-
+            swap(parent, index);
+            maxHeapifyUp(index);
+        }
     }
 
     public void maxHeapify(int index){
@@ -31,7 +37,7 @@ private int capacity;
         int right = rightChild(index);
         int largest = 0;
 
-        if( (left <= heapSize) && (heap[left].getKey() > heap[index].getKey())){
+        if( (left <= heapSize) && (heap[left].compareTo((T) heap[index]) > 0)){
 
             largest = left;
         }else{
@@ -39,23 +45,29 @@ private int capacity;
             largest = index;
         }
 
-        if((right <= heapSize) && (heap[right].getKey() > heap[index].getKey())){
+        if((right <= heapSize) && (heap[right].compareTo((T) heap[index]) > 0)){
 
             largest = right;
         }
 
         if (largest != index){
 
-            HeapNode<T> temp = heap[largest];
-            heap[largest] = heap[index];
-            heap[index] = temp;
+            swap(largest, index);
+
+            maxHeapify(largest);
+
         }
 
-        maxHeapify(largest);
     }
 
-    private void increaseCapacity(HeapNode<T>[] arr){
-        HeapNode<T>[] cpy = new HeapNode[capacity * 2];
+    private void swap( int var1, int var2){
+        T temp = (T) heap[var2];
+            heap[var2] = heap[var1];
+            heap[var1] = temp;
+    }
+
+    private void increaseCapacity(){
+        Comparable<T>[] cpy = new Comparable[100];
 
         for( int i = 0; i < heapSize; i++){
             cpy[i] = heap[i];
@@ -63,12 +75,6 @@ private int capacity;
 
         heap = cpy;
         capacity *= 2;
-    }
-
-
-    public T extractMax(){
-
-        return null;
     }
 
     private int leftChild(int i){
@@ -82,44 +88,8 @@ private int capacity;
 
         return i;
     }
-
-    
-
-
-
-
-    private class HeapNode<T extends Comparable<T> >{
-        private T node;
-        int key;
-    
-        private HeapNode(T process){
-            this.node = process;
-            
-        }
-
-        public T getObject(){
-            return node;
-        }
-
-        public void setObject(T process){
-            this.node = process;
-        }
-
-        public int getKey(){
-            return key;
-        }
-
-        public void setKey(int key){
-            this.key = key;
-        }
-
-        }
-
-
-
-        
     }
     
 
     
-}
+
