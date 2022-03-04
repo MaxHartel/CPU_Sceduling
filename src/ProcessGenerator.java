@@ -2,7 +2,7 @@ import java.util.Random;
 
 public class ProcessGenerator {
     private double probability;
-    Random random = new Random(5);
+    Random random = new Random();
 
     public ProcessGenerator(double probability) {
         this.probability = probability;

@@ -1,27 +1,46 @@
+import java.util.Random;
 import java.util.Scanner;
 
-public class test {  
+public class test { 
+    Random random = new Random();
     public static void main(String args[]){
-        double input;
-        int scale = 0;
+        MaxHeap maxHeap = new MaxHeap(10);
 
-        System.out.println("Enter a number with trailing decimals");
-        Scanner scan = new Scanner(System.in);
-
-        input = Double.parseDouble(scan.nextLine());
-
-        while(input % 1 != 0){
-            if(((input % 1) - 1) < 0.000000001){
-                
-                input = Math.round(input);
-            }
-            
-            input *= 10;
-            System.out.println("Step: " + input);
-            scale++;
+        for(int i = 0; i < maxHeap.getSize();i ++ ){
+            //maxHeap.maxHeapInsert(Random.nextInt());
         }
 
-        System.out.println("Conclusion: " + input + " " + scale);
+
+    StringBuilder sb = new StringBuilder();
+    int max=0;
+    for(int i=0;i<maxHeap.getSize();i++){
+        for(int j=0;j<Math.pow(2,i)&&j+Math.pow(2,i)<10;j++){
+
+            if(j>max){
+                max=j;
+            }
+        }
+
+    }
+
+    for(int i=0;i<10;i++){
+        for(int j=0;j<Math.pow(2,i)&&j+Math.pow(2,i)<10;j++){
+
+            for(int k=0;(k<max/((int)Math.pow(2, i)));k++){
+                sb.append(" ");
+            }
+            sb.append(maxHeap.getElement(i+(int)Math.pow(2,i)-1) + " ");
+
+        }
+        sb.append("\n");
+
+    }
+
+
+
+    System.out.println(sb.toString());
+
+}
+
         
     }
-}

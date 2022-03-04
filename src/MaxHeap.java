@@ -34,12 +34,12 @@ private int capacity;
     }
 
     public void maxHeapifyUp(int index){
-        int parent = (int) Math.floor(index / 2);
+        int parent = (index - 1) / 2;
 
-        if( heap[index].compareTo(heap[parent]) < 0){
+        if( heap[index].compareTo(heap[parent]) > 0){
 
             swap(parent, index);
-            maxHeapifyUp(index);
+            maxHeapifyUp(parent);
         }
     }
 
@@ -56,7 +56,7 @@ private int capacity;
             largest = index;
         }
 
-        if((right <= heapSize) && (heap[right].compareTo(heap[index]) > 0)){
+        if((right <= heapSize) && (heap[right].compareTo(heap[largest]) > 0)){
 
             largest = right;
         }
@@ -105,13 +105,13 @@ private int capacity;
     }
 
     private int leftChild(int i){
-        i *= 2;
+        i = i * 2 + 1;
 
         return i;
     }
 
     private int rightChild(int i){
-        i = (2 * i) + 1;
+        i = (2 * i) + 2;
 
         return i;
     }
