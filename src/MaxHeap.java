@@ -1,14 +1,21 @@
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
 public class MaxHeap<T extends Comparable<T>> {
-private Comparable[] heap;
+private T[] heap;
 private int heapSize;
 private int capacity;
 
-    public MaxHeap(){
+    public MaxHeap(int capacity){
         heapSize = 0;
-        heap = new Comparable[100];
+        this.capacity = capacity;
+        heap = null;
     }
 
-    public void heapInsert(T element){
+    public void maxHeapInsert(T element){
+        if (heap == null){
+            heap = (T[]) Array.newInstance(element.getClass(), capacity);
+        }
 
         if(heapSize == capacity){
 
@@ -20,6 +27,10 @@ private int capacity;
         maxHeapifyUp(heapSize);
         heapSize++;
 
+    }
+
+    public T getElement(int i){
+        return heap[i];
     }
 
     public void maxHeapifyUp(int index){
@@ -37,7 +48,7 @@ private int capacity;
         int right = rightChild(index);
         int largest = 0;
 
-        if( (left <= heapSize) && (heap[left].compareTo((T) heap[index]) > 0)){
+        if( (left <= heapSize) && (heap[left].compareTo(heap[index]) > 0)){
 
             largest = left;
         }else{
@@ -45,7 +56,7 @@ private int capacity;
             largest = index;
         }
 
-        if((right <= heapSize) && (heap[right].compareTo((T) heap[index]) > 0)){
+        if((right <= heapSize) && (heap[right].compareTo(heap[index]) > 0)){
 
             largest = right;
         }
@@ -60,21 +71,37 @@ private int capacity;
 
     }
 
+    public T extractHeapMax(){
+        T retVal = heap[0];
+        
+        heapSize--;
+        heap[0] = heap[heapSize];
+
+        maxHeapify(0);
+
+        return retVal;
+    }
+
+    public boolean isEmpty(){
+
+        if(heapSize == 0){
+
+            return true;
+        }else{
+
+            return false;
+        }
+    } 
+
     private void swap( int var1, int var2){
-        T temp = (T) heap[var2];
+        T temp = heap[var2];
             heap[var2] = heap[var1];
             heap[var1] = temp;
     }
 
     private void increaseCapacity(){
-        Comparable<T>[] cpy = new Comparable[100];
-
-        for( int i = 0; i < heapSize; i++){
-            cpy[i] = heap[i];
-        }
-
-        heap = cpy;
         capacity *= 2;
+        heap = Arrays.copyOf(heap, capacity);
     }
 
     private int leftChild(int i){
@@ -87,6 +114,14 @@ private int capacity;
         i = (2 * i) + 1;
 
         return i;
+    }
+
+    public int getSize(){
+        return heapSize;
+    }
+
+    public int getCapicity(){
+        return capacity;
     }
     }
     

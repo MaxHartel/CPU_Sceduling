@@ -68,6 +68,10 @@ int arrivalTime;
         return remainingTime;
     }
 
+    public void incrementPriority(){
+        priorityLevel++;
+    }
+
     public void resetTimeNotProcessed() {
         timeNotProcessed = 0;
     }
